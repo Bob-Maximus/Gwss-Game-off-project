@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         }
 
         //if player tries to jump, check if can jump
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W))
         {
             //check which ground check is grounded and jump accordingly
             if (groundCheck.grounded)
@@ -65,15 +65,18 @@ public class Player : MonoBehaviour
             }
             else if (rightGroundCheck.grounded)
             {
-                rb.velocity = new Vector2(-jumpHeight * 2, jumpHeight * 3/4);
+                rb.velocity = new Vector2(rb.velocity.x, jumpHeight * 3 / 4);
+                idealMovement.x = -jumpHeight * 3;
             }
             else if (leftGroundCheck.grounded)
             {
-                rb.velocity = new Vector2(jumpHeight * 2, jumpHeight * 3/4);
+                rb.velocity = new Vector2(rb.velocity.x, jumpHeight * 3 / 4);
+                idealMovement.x = jumpHeight * 3;
             }
         }
 
         //smoothly turning our real velocities into ideal velocities
-        rb.velocity = Vector2.Lerp(idealMovement, rb.velocity, Time.deltaTime * acceleration);
+        float realVelocity = Mathf.Lerp(rb.velocity.x, idealMovement.x, Time.deltaTime * acceleration);
+        rb.velocity = new Vector2(realVelocity, rb.velocity.y);
     }
 }
