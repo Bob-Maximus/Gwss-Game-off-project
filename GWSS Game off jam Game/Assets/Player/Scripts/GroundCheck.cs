@@ -9,12 +9,12 @@ public class GroundCheck : MonoBehaviour
     public bool grounded;
 
     //if touching object, grounded. If not, ungrounded
-    void OnTriggerEnter2D(Collider2D col)
+    void OnCollisionEnter2D(Collision2D col)
     {
         grounded = true;
     }
 
-    void OnTriggerExit2D(Collider2D col)
+    void OnCollisionExit2D(Collision2D col)
     {
         grounded = false;
     }
