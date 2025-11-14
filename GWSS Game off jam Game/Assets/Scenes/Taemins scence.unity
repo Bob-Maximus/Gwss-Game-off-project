@@ -1723,10 +1723,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1363406334}
   - component: {fileID: 1363406332}
-  - component: {fileID: 1363406335}
   - component: {fileID: 1363406336}
   - component: {fileID: 1363406338}
   - component: {fileID: 1363406337}
+  - component: {fileID: 1363406339}
   m_Layer: 2
   m_Name: Player
   m_TagString: Player
@@ -1777,25 +1777,6 @@ Transform:
   - {fileID: 396727896}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1363406335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1363406331}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 658955da322875244bb546cd8c714e99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  runSpeed: 5
-  jumpForce: 13
-  groundCheck: {fileID: 396727896}
-  groundCheckRadius: 0.2
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!114 &1363406336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1910,6 +1891,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1363406339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363406331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a5cca5be0673c4bbbfae817370e69c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 7
+  jumpForce: 13
+  groundCheck: {fileID: 396727896}
+  groundCheckRadius: 0.2
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &1481444591
 GameObject:
   m_ObjectHideFlags: 0
