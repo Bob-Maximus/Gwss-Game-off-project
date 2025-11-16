@@ -27,6 +27,8 @@ public class PlayerControllerLayerCheck : MonoBehaviour
         {
             Jump();
         }
+
+        Debug.Log("Grounded: " + isGrounded);
     }
 
 
@@ -34,8 +36,16 @@ public class PlayerControllerLayerCheck : MonoBehaviour
     {
         float moveX = Input.GetAxis("Horizontal");
 
-        rb.velocity = new Vector2(moveX * runSpeed, rb.velocity.y);
+        // Smooth horizontal velocity
+        float targetVelX = moveX * runSpeed;
 
+    
+        float smoothedX = Mathf.Lerp(rb.velocity.x, targetVelX, 0.2f);
+
+        // Apply new velocity while keeping vertical velocity
+        rb.velocity = new Vector2(smoothedX, rb.velocity.y);
+
+        // Flip sprite
         if (moveX > 0 && !facingRight)
         {
             Flip();
@@ -45,6 +55,7 @@ public class PlayerControllerLayerCheck : MonoBehaviour
             Flip();
         }
     }
+
 
     void Jump()
     {
