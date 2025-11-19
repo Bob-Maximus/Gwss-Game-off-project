@@ -80,19 +80,24 @@ public class PlayerControllerLayerCheck : MonoBehaviour
     {
         if (left)
         {
-            rb.AddForce(new Vector2(-jumpForce, jumpForce), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(jumpForce, jumpForce), ForceMode2D.Impulse);
+            transform.position = new Vector2(transform.position.x + 1, transform.position.y);
         }
         else
         {
-            rb.AddForce(new Vector2(jumpForce, jumpForce), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(-jumpForce, jumpForce), ForceMode2D.Impulse);
+            transform.position = new Vector2(transform.position.x - 1, transform.position.y);
         }
     }
 
     void Flip()
     {
         facingRight = !facingRight;
+        GetComponent<SpriteRenderer>().flipX = true;
+        /*
         Vector3 scaler = transform.localScale;
         scaler.x *= -1;
         transform.localScale = scaler;
+        */
     }
 }
