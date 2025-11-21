@@ -27,18 +27,21 @@ public class LargeCrabRewoked : MonoBehaviour
         LookForPlayer();
         Move();
         // Countdown timer
-        timer -= Time.deltaTime;
+        timer += Time.deltaTime;
     }
 
     private void LookForPlayer()
     {
-        RaycastHit2D rayhit = Physics2D.Raycast(transform.position, transform.forward, ssightRange);
-        if (rayhit.collider != null && rayhit.collider.gameObject.tag == "Player" && chasePlayer)
+        RaycastHit2D rayhit = Physics2D.Raycast(transform.position, new Vector3(transform.forward.z,transform.forward.y, 0), ssightRange);
+        RaycastHit2D rayhit2 = Physics2D.Raycast(transform.position, new Vector3(-transform.forward.z,transform.forward.y, 0), ssightRange);
+        if (rayhit2.collider != null && rayhit2.collider.gameObject.tag == "Player"&& chasePlayer)
         {
-            Debug.Log("ghkl");
-            Attack(rayhit.collider.transform.position);
+            Attack(rayhit2.collider.transform.position);
         }
-        else
+        else if (rayhit.collider != null &&rayhit.collider.gameObject.tag == "Player" && chasePlayer)
+        {
+            Attack(rayhit.collider.transform.position);
+        } else 
         {
             Wander();
         }
