@@ -11,7 +11,16 @@ public class PlayerControllerLayerCheck : MonoBehaviour
     private bool facingRight = true;
 
     public Transform groundCheck;
+    private bool isGrounded;
+
+    public Transform rightGroundCheck;
+    private bool isRightGrounded;
+
+    public Transform leftGroundCheck;
+    private bool isLeftGrounded;
+
     public float groundCheckRadius = 0.2f;
+
     public LayerMask whatIsGround;
     public GameObject wavePrefab;
     public Transform firePoint; // where the wave spawns
@@ -25,10 +34,26 @@ public class PlayerControllerLayerCheck : MonoBehaviour
     void Update()
     {
         bool isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+        bool isLeftGrounded = Physics2D.OverlapCircle(leftGroundCheck.position, groundCheckRadius, whatIsGround);
+        bool isRightGrounded = Physics2D.OverlapCircle(rightGroundCheck.position, groundCheckRadius, whatIsGround);
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (isLeftGrounded || isRightGrounded)
         {
-            Jump();
+            rb.velocityY = 0;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            if (isGrounded)
+            {
+                Jump();
+            } else if (isLeftGrounded)
+            {
+                WallJump(true);
+            } else if (isRightGrounded)
+            {
+                WallJump(false);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.J))
@@ -72,12 +97,29 @@ public class PlayerControllerLayerCheck : MonoBehaviour
         rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
     }
 
+    void WallJump(bool left)
+    {
+        if (left)
+        {
+            rb.AddForce(new Vector2(jumpForce, jumpForce), ForceMode2D.Impulse);
+            transform.position = new Vector2(transform.position.x + 1, transform.position.y);
+        }
+        else
+        {
+            rb.AddForce(new Vector2(-jumpForce, jumpForce), ForceMode2D.Impulse);
+            transform.position = new Vector2(transform.position.x - 1, transform.position.y);
+        }
+    }
+
     void Flip()
     {
         facingRight = !facingRight;
+        GetComponent<SpriteRenderer>().flipX = true;
+        /*
         Vector3 scaler = transform.localScale;
         scaler.x *= -1;
         transform.localScale = scaler; 
+        */
     } 
 
     void Shoot()
