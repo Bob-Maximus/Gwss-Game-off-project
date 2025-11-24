@@ -1955,6 +1955,7 @@ GameObject:
   - component: {fileID: 1363406338}
   - component: {fileID: 1363406337}
   - component: {fileID: 1363406339}
+  - component: {fileID: 1363406340}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2135,6 +2136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runSpeed: 7
   jumpForce: 13
+  facingRight: 1
   groundCheck: {fileID: 396727896}
   rightGroundCheck: {fileID: 1831619887}
   leftGroundCheck: {fileID: 1139437089}
@@ -2142,6 +2144,22 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+--- !u!114 &1363406340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363406331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7169938b9fa4abe4a9b045b0a39fda31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 7607989835681487308, guid: 21f6155a7f305bc4eb033da3a4e52193, type: 3}
+  key: e
+  speed: 5
+  lifeTime: 5
 --- !u!1 &1481444591
 GameObject:
   m_ObjectHideFlags: 0

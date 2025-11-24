@@ -1,24 +1,18 @@
 using UnityEngine;
 //check heavly before merge
 //reworked everything
-public class PlayerControllerLayerCheck : MonoBehaviour
+public class PlayerControllerBetter : MonoBehaviour
 {
     public float runSpeed = 5f;
     public float jumpForce = 10f;
 
     private Rigidbody2D rb;
 
-    private bool facingRight = true;
+    public bool facingRight = true;
 
     public Transform groundCheck;
-    private bool isGrounded;
-
     public Transform rightGroundCheck;
-    private bool isRightGrounded;
-
     public Transform leftGroundCheck;
-    private bool isLeftGrounded;
-
     public float groundCheckRadius = 0.2f;
 
     public LayerMask whatIsGround;
@@ -46,10 +40,10 @@ public class PlayerControllerLayerCheck : MonoBehaviour
                 Jump();
             } else if (isLeftGrounded)
             {
-                WallJump(true);
+                WallJump();
             } else if (isRightGrounded)
             {
-                WallJump(false);
+                WallJump();
             }
         }
 
@@ -87,16 +81,16 @@ public class PlayerControllerLayerCheck : MonoBehaviour
         rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
     }
 
-    void WallJump(bool left)
+    void WallJump()
     {
-        if (left)
+        if (!facingRight)
         {
-            rb.AddForce(new Vector2(jumpForce, jumpForce), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(jumpForce*4, jumpForce), ForceMode2D.Impulse);
             transform.position = new Vector2(transform.position.x + 1, transform.position.y);
         }
         else
         {
-            rb.AddForce(new Vector2(-jumpForce, jumpForce), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(-jumpForce*4, jumpForce), ForceMode2D.Impulse);
             transform.position = new Vector2(transform.position.x - 1, transform.position.y);
         }
     }
