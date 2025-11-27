@@ -11,9 +11,13 @@ public class PlayerControllerBetter : MonoBehaviour
     public bool facingRight = true;
 
     public Transform groundCheck;
+    public bool isGrounded;
     public Transform rightGroundCheck;
     public Transform leftGroundCheck;
-    public float groundCheckRadius = 0.2f;
+    public float groundCheckRadius = 0.1f;
+
+    public SpriteRenderer sprite;
+    public Animator anim;
 
     public LayerMask whatIsGround;
 
@@ -24,7 +28,7 @@ public class PlayerControllerBetter : MonoBehaviour
 
     void Update()
     {
-        bool isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
         bool isLeftGrounded = Physics2D.OverlapCircle(leftGroundCheck.position, groundCheckRadius, whatIsGround);
         bool isRightGrounded = Physics2D.OverlapCircle(rightGroundCheck.position, groundCheckRadius, whatIsGround);
 
@@ -46,6 +50,17 @@ public class PlayerControllerBetter : MonoBehaviour
                 WallJump();
             }
         }
+
+        if (!isGrounded)
+        {
+            if (!isLeftGrounded && !isRightGrounded)
+            {
+                anim.Play("falling");
+            } else
+            {
+                anim.Play("climbing");
+            }
+        }
     }
 
 
@@ -62,6 +77,14 @@ public class PlayerControllerBetter : MonoBehaviour
         else if (moveX < 0 && facingRight)
         {
             Flip();
+        }
+
+        if (rb.velocityX != 0 && isGrounded)
+        {
+            anim.Play("Walk");
+        } else if (rb.velocityX == 0 && isGrounded && !anim.GetCurrentAnimatorStateInfo(0).IsName("casting"))
+        {
+            anim.Play("Idle");
         }
     }
 
@@ -87,7 +110,7 @@ public class PlayerControllerBetter : MonoBehaviour
     void Flip()
     {
         facingRight = !facingRight;
-        GetComponent<SpriteRenderer>().flipX = true;
+        sprite.flipX = !sprite.flipX;
         /*
         Vector3 scaler = transform.localScale;
         scaler.x *= -1;
