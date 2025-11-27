@@ -4,25 +4,26 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public GameObject projectile;
-    public string key;
-    public float speed;
-    public float lifeTime;
+    public List<ProjectileData> attacks;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(key))
+        foreach (ProjectileData attack in attacks)
         {
-            var sentProjectile = Instantiate(projectile);
-            sentProjectile.transform.position = transform.position;
-            sentProjectile.GetComponent<Projectiles>().lifeTime = lifeTime;
-            if (GetComponent<PlayerControllerBetter>().facingRight)
+            if (Input.GetKeyDown(attack.key))
             {
-                sentProjectile.GetComponent<Projectiles>().speed = speed;
-            } else
-            {
-                sentProjectile.GetComponent<Projectiles>().speed = -speed;
+                var sentProjectile = Instantiate(attack.projectile);
+                sentProjectile.transform.position = new Vector2(transform.position.x, transform.position.y - 1.2f);
+                sentProjectile.GetComponent<Projectiles>().lifeTime = attack.lifeTime;
+                if (GetComponent<PlayerControllerBetter>().facingRight)
+                {
+                    sentProjectile.GetComponent<Projectiles>().speed = attack.speed;
+                } else
+                {
+                    sentProjectile.GetComponent<Projectiles>().speed = -attack.speed;
+                    sentProjectile.GetComponent<SpriteRenderer>().flipX = true;
+                }
             }
         }
     }
