@@ -1,14 +1,15 @@
-using UnityEngine;
-//check heavly before merge
-//reworked everything
+﻿using UnityEngine;
+
 public class PlayerControllerLayerCheck : MonoBehaviour
 {
     public float runSpeed = 5f;
     public float jumpForce = 10f;
+    public float wallCheckDistance = 0.5f;
 
     private Rigidbody2D rb;
 
     private bool facingRight = true;
+    private bool isWallSliding;
 
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
@@ -23,18 +24,43 @@ public class PlayerControllerLayerCheck : MonoBehaviour
     {
         bool isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            Jump();
-        }
-    }
+        RaycastHit2D wallCheckHit = Physics2D.Raycast(
+          transform.position,
+          new Vector2(facingRight ? 1 : -1, 0),
+          wallCheckDistance,
+          whatIsGround
+        );
 
+        bool isWallContact = wallCheckHit.collider != null && !isGrounded;
+
+        if (isWallContact)
+        {
+            isWallSliding = true;
+        }
+        else
+        {
+            isWallSliding = false;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            if (isGrounded)
+            {
+                Jump(jumpForce);
+            }
+        }
+
+        Debug.Log("Grounded: " + isGrounded + " | Wall Sliding: " + isWallSliding);
+    }
 
     void FixedUpdate()
     {
         float moveX = Input.GetAxis("Horizontal");
 
-        rb.velocity = new Vector2(moveX * runSpeed, rb.velocity.y);
+        float targetVelX = moveX * runSpeed;
+        float smoothedX = Mathf.Lerp(rb.velocity.x, targetVelX, 0.2f);
+
+        rb.velocity = new Vector2(smoothedX, rb.velocity.y);
 
         if (moveX > 0 && !facingRight)
         {
@@ -46,9 +72,10 @@ public class PlayerControllerLayerCheck : MonoBehaviour
         }
     }
 
-    void Jump()
+    void Jump(float force)
     {
-        rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        rb.AddForce(new Vector2(0f, force), ForceMode2D.Impulse);
     }
 
     void Flip()
