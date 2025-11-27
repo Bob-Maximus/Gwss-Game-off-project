@@ -20,6 +20,9 @@ public class PlayerControllerBetter : MonoBehaviour
     public Animator anim;
 
     public LayerMask whatIsGround;
+    public GameObject wavePrefab;
+    public Transform firePoint; // where the wave spawns
+
 
     void Start()
     {
@@ -51,7 +54,7 @@ public class PlayerControllerBetter : MonoBehaviour
             }
         }
 
-        if (!isGrounded)
+        if (!isGronnded)
         {
             if (!isLeftGrounded && !isRightGrounded)
             {
@@ -61,6 +64,14 @@ public class PlayerControllerBetter : MonoBehaviour
                 anim.Play("climbing");
             }
         }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            Shoot();
+
+            Debug.Log("Shoot");
+        }
+        
+
     }
 
 
@@ -68,8 +79,16 @@ public class PlayerControllerBetter : MonoBehaviour
     {
         float moveX = Input.GetAxis("Horizontal");
 
-        rb.velocity = new Vector2(moveX * runSpeed, rb.velocity.y);
+        // Smooth horizontal velocity
+        float targetVelX = moveX * runSpeed;
 
+    
+        float smoothedX = Mathf.Lerp(rb.velocity.x, targetVelX, 0.2f);
+
+        // Apply new velocity while keeping vertical velocity
+        rb.velocity = new Vector2(smoothedX, rb.velocity.y);
+
+        // Flip sprite
         if (moveX > 0 && !facingRight)
         {
             Flip();
@@ -87,6 +106,7 @@ public class PlayerControllerBetter : MonoBehaviour
             anim.Play("Idle");
         }
     }
+
 
     void Jump()
     {
@@ -114,7 +134,21 @@ public class PlayerControllerBetter : MonoBehaviour
         /*
         Vector3 scaler = transform.localScale;
         scaler.x *= -1;
-        transform.localScale = scaler;
+        transform.localScale = scaler; 
         */
+    } 
+
+    void Shoot()
+    {
+        GameObject wave = Instantiate(wavePrefab, firePoint.position, Quaternion.identity);
+
+        WaveProjectile w = wave.GetComponent<WaveProjectile>();
+
+        int dir = facingRight ? 1 : -1;
+        w.SetDirection(dir);
     }
+
+
+
+
 }
