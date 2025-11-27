@@ -16,6 +16,9 @@ public class PlayerControllerBetter : MonoBehaviour
     public float groundCheckRadius = 0.2f;
 
     public LayerMask whatIsGround;
+    public GameObject wavePrefab;
+    public Transform firePoint; // where the wave spawns
+
 
     void Start()
     {
@@ -47,7 +50,14 @@ public class PlayerControllerBetter : MonoBehaviour
             }
         }
 
-        Debug.Log("Grounded: " + isGrounded);
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            Shoot();
+
+            Debug.Log("Shoot");
+        }
+        
+
     }
 
 
@@ -102,7 +112,21 @@ public class PlayerControllerBetter : MonoBehaviour
         /*
         Vector3 scaler = transform.localScale;
         scaler.x *= -1;
-        transform.localScale = scaler;
+        transform.localScale = scaler; 
         */
+    } 
+
+    void Shoot()
+    {
+        GameObject wave = Instantiate(wavePrefab, firePoint.position, Quaternion.identity);
+
+        WaveProjectile w = wave.GetComponent<WaveProjectile>();
+
+        int dir = facingRight ? 1 : -1;
+        w.SetDirection(dir);
     }
+
+
+
+
 }
