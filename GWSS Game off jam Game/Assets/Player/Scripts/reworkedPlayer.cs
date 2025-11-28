@@ -107,7 +107,7 @@ public class PlayerControllerBetter : MonoBehaviour
         }
     }
 
-
+//this message is to ease githubs balls a little and to finally let this fucking thing work
     void Jump()
     {
         rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
