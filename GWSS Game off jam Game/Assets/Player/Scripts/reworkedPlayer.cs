@@ -54,7 +54,7 @@ public class PlayerControllerBetter : MonoBehaviour
             }
         }
 
-        if (!isGronnded)
+        if (!isGrounded)
         {
             if (!isLeftGrounded && !isRightGrounded)
             {
