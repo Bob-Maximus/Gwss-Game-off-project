@@ -11,7 +11,7 @@ public class PlayerAttack : MonoBehaviour
     {
         foreach (ProjectileData attack in attacks)
         {
-            if (Input.GetKeyDown(attack.key))
+            if (Input.GetKeyDown(attack.key) && GetComponent<PlayerControllerBetter>().isGrounded)
             {
                 var sentProjectile = Instantiate(attack.projectile);
                 sentProjectile.transform.position = new Vector2(transform.position.x, transform.position.y - 1.2f);
@@ -24,6 +24,8 @@ public class PlayerAttack : MonoBehaviour
                     sentProjectile.GetComponent<Projectiles>().speed = -attack.speed;
                     sentProjectile.GetComponent<SpriteRenderer>().flipX = true;
                 }
+
+                GetComponent<PlayerControllerBetter>().anim.Play("casting");
             }
         }
     }
