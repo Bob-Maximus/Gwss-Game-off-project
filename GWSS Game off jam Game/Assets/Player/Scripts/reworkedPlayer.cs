@@ -66,9 +66,9 @@ public class PlayerControllerBetter : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
-            Shoot();
+            //Shoot();
 
-            Debug.Log("Shoot");
+            //Debug.Log("Shoot");
         }
         
 
@@ -83,10 +83,10 @@ public class PlayerControllerBetter : MonoBehaviour
         float targetVelX = moveX * runSpeed;
 
     
-        float smoothedX = Mathf.Lerp(rb.velocity.x, targetVelX, 0.2f);
+        //float smoothedX = Mathf.Lerp(rb.velocity.x, targetVelX, 0.2f);
 
         // Apply new velocity while keeping vertical velocity
-        rb.velocity = new Vector2(smoothedX, rb.velocity.y);
+        rb.velocityX = targetVelX;
 
         // Flip sprite
         if (moveX > 0 && !facingRight)
@@ -138,6 +138,7 @@ public class PlayerControllerBetter : MonoBehaviour
         */
     } 
 
+/*
     void Shoot()
     {
         GameObject wave = Instantiate(wavePrefab, firePoint.position, Quaternion.identity);
@@ -147,6 +148,7 @@ public class PlayerControllerBetter : MonoBehaviour
         int dir = facingRight ? 1 : -1;
         w.SetDirection(dir);
     }
+*/
 
 
 
