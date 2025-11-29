@@ -73,4 +73,21 @@ public class LargeCrabRewoked : MonoBehaviour
             speed = Mathf.Abs(speed);
         }
     }
+
+    public void TakeDamage()
+    {
+        Debug.Log("Hit crab");
+        Destroy(gameObject);  // remove crab
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Player"))
+        {
+            collision.collider.GetComponent<PlayerHealth>()?.TakeDamage();
+
+        }
+    }
+
+
 }
