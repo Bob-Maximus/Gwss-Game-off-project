@@ -17,9 +17,6 @@ public class Player : MonoBehaviour
     [SerializeField] public GroundCheck rightGroundCheck;
     [SerializeField] public GroundCheck leftGroundCheck;
 
-    //getting sprite renderer to flip player
-    [SerializeField] public SpriteRenderer spriteRenderer;
-
     //getting rigidbody fpr physics stuff
     private Rigidbody2D rb;
 
@@ -42,16 +39,14 @@ public class Player : MonoBehaviour
         //creating a variable for storage of our velocities prior to setting our real velocities to them
         Vector2 idealMovement = new Vector2(0, rb.velocity.y);
 
-        //getting player inpput and changing velocities according to them, also flipping player sprite if they turn left
+        //getting player inpput and changing velocities according to them
         if (Input.GetKey(KeyCode.A))
         {
             idealMovement.x = -speed;
-            spriteRenderer.flipX = true;
         }
         if (Input.GetKey(KeyCode.D))
         {
             idealMovement.x = speed;
-            spriteRenderer.flipX = false;
         }
 
         //if touching wall, set velocity to 0 as to not just fall
