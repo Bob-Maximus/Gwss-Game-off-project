@@ -6,6 +6,10 @@ public class PlayerAttack : MonoBehaviour
 {
     public List<ProjectileData> attacks;
 
+    public AudioClip shootSFX;  
+    public AudioSource audioSource;
+
+
     // Update is called once per frame
     void Update()
     {
@@ -26,6 +30,8 @@ public class PlayerAttack : MonoBehaviour
                 }
 
                 GetComponent<PlayerControllerBetter>().anim.Play("casting");
+
+                audioSource.PlayOneShot(shootSFX);
             }
         }
     }
