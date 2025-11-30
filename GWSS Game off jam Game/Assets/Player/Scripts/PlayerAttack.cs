@@ -1,0 +1,41 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerAttack : MonoBehaviour
+{
+    public List<ProjectileData> attacks;
+
+    public AudioClip shootSFX;  
+    public AudioSource audioSource;
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        foreach (ProjectileData attack in attacks)
+        {
+            if (Input.GetKeyDown(attack.key) && GetComponent<PlayerControllerBetter>().isGrounded)
+            {
+                var sentProjectile = Instantiate(attack.projectile);
+                sentProjectile.transform.position = new Vector2(transform.position.x, transform.position.y - 1.2f);
+                sentProjectile.GetComponent<Projectiles>().lifeTime = attack.lifeTime;
+                if (GetComponent<PlayerControllerBetter>().facingRight)
+                {
+                    sentProjectile.GetComponent<Projectiles>().speed = attack.speed;
+                } else
+                {
+                    sentProjectile.GetComponent<Projectiles>().speed = -attack.speed;
+                    sentProjectile.GetComponent<SpriteRenderer>().flipX = true;
+                }
+
+                GetComponent<PlayerControllerBetter>().anim.Play("casting");
+
+                audioSource.PlayOneShot(shootSFX);
+            }
+        }
+    }
+
+
+
+}
