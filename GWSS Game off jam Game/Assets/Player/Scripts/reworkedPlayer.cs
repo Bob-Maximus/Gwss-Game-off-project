@@ -21,7 +21,9 @@ public class PlayerControllerBetter : MonoBehaviour
 
     public LayerMask whatIsGround;
     public GameObject wavePrefab;
-    public Transform firePoint; // where the wave spawns
+    public Transform firePoint; 
+
+
 
 
     void Start()
@@ -101,6 +103,7 @@ public class PlayerControllerBetter : MonoBehaviour
         if (rb.velocityX != 0 && isGrounded)
         {
             anim.Play("Walk");
+
         } else if (rb.velocityX == 0 && isGrounded && !anim.GetCurrentAnimatorStateInfo(0).IsName("casting"))
         {
             anim.Play("Idle");
