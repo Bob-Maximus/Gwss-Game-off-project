@@ -25,7 +25,7 @@ public class Projectiles : MonoBehaviour
     {
         if (col.collider.CompareTag("Enemy"))
         {
-            col.collider.GetComponent<LargeCrabRewoked>()?.TakeDamage();
+            col.collider.GetComponent<LargeCrabReworked>()?.TakeDamage();
         
             Debug.Log("Hit enemy");
         }
