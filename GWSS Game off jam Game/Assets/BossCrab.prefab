@@ -148,12 +148,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  switchTime: 3.5
-  sightRange: 15
+  switchTime: 4
+  sightRange: 20
   chasePlayer: 1
   largeCrabPrefab: {fileID: 2437887368184593405, guid: cb0c33301af964b17bb0200746559738, type: 3}
-  spawnInterval: 4
+  spawnInterval: 2
   spriteRenderer: {fileID: 5827498525578676315}
+  hasSeenPlayer: 0
+  player: {fileID: 0}
+  detectDistance: 15
+  maxHealth: 150
+  currentHealth: 0
+  healthBarFill: {fileID: 0}
 --- !u!1 &4926103418537099866
 GameObject:
   m_ObjectHideFlags: 0

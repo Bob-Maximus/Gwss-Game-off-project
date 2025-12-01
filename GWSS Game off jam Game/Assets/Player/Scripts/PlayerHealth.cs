@@ -6,7 +6,10 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 100;         // Max health
     private int currentHealth;          // Current health
 
-    public Image healthBarFill;         // Drag your player's HealthBarFill image here
+    public Image healthBarFill;  
+
+    public GameObject defeatPanel; 
+       
 
     void Start()
     {
@@ -17,7 +20,6 @@ public class PlayerHealth : MonoBehaviour
             healthBarFill.fillAmount = 1f;
     }
 
-    // Call this to damage the player
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
@@ -38,6 +40,32 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player died");
-        Destroy(gameObject);  
+
+
+        // Disable movement
+        GetComponent<PlayerControllerBetter>().enabled = false;
+
+        // Stop Rigidbody motion
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+        rb.isKinematic = true;
+
+        // Show defeat panel
+        if (defeatPanel != null)
+            defeatPanel.SetActive(true);
+
+
     }
+
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Floor"))
+        {
+            TakeDamage(maxHealth);  // instantly kill player
+        }
+    }
+
 }
