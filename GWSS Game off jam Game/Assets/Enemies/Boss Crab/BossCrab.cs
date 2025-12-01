@@ -7,13 +7,17 @@ public class BossCrab : MonoBehaviour
     public float sightRange = 5f;
     public bool chasePlayer = true;
 
-    public GameObject largeCrabPrefab; // the small crabs to spawn
+    public GameObject largeCrabPrefab; 
     public float spawnInterval = 5f;
 
     private float timer;
     private float spawnTimer;
     private Rigidbody2D rb;
     public SpriteRenderer spriteRenderer;
+
+    public bool hasSeenPlayer = false;
+    public Transform player;
+    public float detectDistance = 10f;
 
     void Start()
     {
@@ -24,21 +28,35 @@ public class BossCrab : MonoBehaviour
 
     void Update()
     {
+        // ⭐ NEW — detect player once
+        if (!hasSeenPlayer)
+        {
+            float dist = Vector2.Distance(transform.position, player.position);
+            if (dist <= detectDistance)
+            {
+                hasSeenPlayer = true;
+                Debug.Log("Boss has seen the player for the first time — spawning activated!");
+            }
+        }
+
         LookForPlayer();
         Move();
         timer += Time.deltaTime;
 
-        spawnTimer += Time.deltaTime;
-        if (spawnTimer >= spawnInterval)
+        // ⭐ NEW — only spawn if boss has seen player
+        if (hasSeenPlayer)
         {
-            SpawnCrab();
-            spawnTimer = 0;
+            spawnTimer += Time.deltaTime;
+            if (spawnTimer >= spawnInterval)
+            {
+                SpawnCrab();
+                spawnTimer = 0;
+            }
         }
     }
 
     private void LookForPlayer()
     {
-        // Offset downward
         Vector2 origin = (Vector2)transform.position + Vector2.down * 2f;
 
         RaycastHit2D hitRight = Physics2D.Raycast(origin, Vector2.right, sightRange);
@@ -62,7 +80,6 @@ public class BossCrab : MonoBehaviour
         }
     }
 
-
     private void Move()
     {
         rb.velocity = new Vector2(speed, rb.velocity.y);
@@ -80,20 +97,14 @@ public class BossCrab : MonoBehaviour
 
     private void SpawnCrab()
     {
-        float horizontalOffset = 5f;  // distance in front of boss
-        float verticalOffset = 0.5f;  // small offset so it doesn't spawn inside
+        float horizontalOffset = 5f;
+        float verticalOffset = 0.5f;
 
-        Vector3 spawnPos = transform.position + new Vector3(speed > 0 ? horizontalOffset : -horizontalOffset, verticalOffset, 0);
-        GameObject crab = Instantiate(largeCrabPrefab, spawnPos, Quaternion.identity);
+        Vector3 spawnPos = transform.position +
+            new Vector3(speed > 0 ? horizontalOffset : -horizontalOffset, verticalOffset, 0);
 
-        // Set crab speed to match the direction of the boss
-        LargeCrabReworked crabScript = crab.GetComponent<LargeCrabReworked>();
-        if (crabScript != null)
-        {
-            crabScript.speed = -speed > 0 ? Mathf.Abs(crabScript.speed) : -Mathf.Abs(crabScript.speed);
-        }
+        Instantiate(largeCrabPrefab, spawnPos, Quaternion.identity);
     }
-
 
     public void TakeDamage()
     {
