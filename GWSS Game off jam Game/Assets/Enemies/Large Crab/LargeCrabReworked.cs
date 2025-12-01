@@ -85,7 +85,7 @@ public class LargeCrabReworked : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            collision.collider.GetComponent<PlayerHealth>()?.TakeDamage(20);
+            collision.collider.GetComponent<PlayerHealth>()?.TakeDamage(10);
         }
     }
 }

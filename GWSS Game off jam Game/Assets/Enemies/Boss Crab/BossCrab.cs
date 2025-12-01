@@ -20,6 +20,8 @@ public class BossCrab : MonoBehaviour
     public Transform player;
     public float detectDistance = 10f;
 
+    public GameObject winPanel; 
+
     
     public int maxHealth = 100;
     public int currentHealth;
@@ -138,6 +140,9 @@ public class BossCrab : MonoBehaviour
     {
         Debug.Log("Boss crab defeated!");
         Destroy(gameObject);
+
+        if (winPanel != null)
+            winPanel.SetActive(true);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
