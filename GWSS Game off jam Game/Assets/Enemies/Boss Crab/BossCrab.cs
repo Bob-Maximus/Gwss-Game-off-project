@@ -27,6 +27,8 @@ public class BossCrab : MonoBehaviour
     public int currentHealth;
     public Image healthBarFill; // UI bar
 
+    public GameObject ticket;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -141,8 +143,7 @@ public class BossCrab : MonoBehaviour
         Debug.Log("Boss crab defeated!");
         Destroy(gameObject);
 
-        if (winPanel != null)
-            winPanel.SetActive(true);
+        ticket.SetActive(true);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
