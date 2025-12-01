@@ -157,7 +157,7 @@ MonoBehaviour:
   hasSeenPlayer: 0
   player: {fileID: 0}
   detectDistance: 15
-  maxHealth: 150
+  maxHealth: 100
   currentHealth: 0
   healthBarFill: {fileID: 0}
 --- !u!1 &4926103418537099866
