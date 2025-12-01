@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossCrab : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class BossCrab : MonoBehaviour
     public float sightRange = 5f;
     public bool chasePlayer = true;
 
-    public GameObject largeCrabPrefab; 
+    public GameObject largeCrabPrefab;
     public float spawnInterval = 5f;
 
     private float timer;
@@ -19,11 +20,20 @@ public class BossCrab : MonoBehaviour
     public Transform player;
     public float detectDistance = 10f;
 
+    
+    public int maxHealth = 100;
+    public int currentHealth;
+    public Image healthBarFill; // UI bar
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         timer = switchTime;
         spawnTimer = spawnInterval;
+
+        currentHealth = maxHealth;
+        if (healthBarFill != null)
+            healthBarFill.fillAmount = 1f;
     }
 
     void Update()
@@ -106,9 +116,27 @@ public class BossCrab : MonoBehaviour
         Instantiate(largeCrabPrefab, spawnPos, Quaternion.identity);
     }
 
-    public void TakeDamage()
+    // ⭐ HEALTH DAMAGE
+    public void TakeDamage(int damage)
     {
-        Debug.Log("Boss crab hit!");
+        currentHealth -= damage;
+
+        if (currentHealth < 0)
+            currentHealth = 0;
+
+        // update bar
+        if (healthBarFill != null)
+            healthBarFill.fillAmount = (float)currentHealth / maxHealth;
+
+        Debug.Log("Boss crab hit! Health: " + currentHealth);
+
+        if (currentHealth == 0)
+            Die();
+    }
+
+    private void Die()
+    {
+        Debug.Log("Boss crab defeated!");
         Destroy(gameObject);
     }
 
