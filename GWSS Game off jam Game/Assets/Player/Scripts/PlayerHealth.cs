@@ -9,6 +9,9 @@ public class PlayerHealth : MonoBehaviour
     public Image healthBarFill;  
 
     public GameObject defeatPanel; 
+
+    public AudioClip damageSFX;  
+    public AudioSource audioSource;
        
 
     void Start()
@@ -32,6 +35,9 @@ public class PlayerHealth : MonoBehaviour
             healthBarFill.fillAmount = (float)currentHealth / maxHealth;
 
         Debug.Log("Player hit! Health: " + currentHealth);
+
+        if (audioSource != null && damageSFX != null)
+            audioSource.PlayOneShot(damageSFX);
 
         if (currentHealth == 0)
             Die();
