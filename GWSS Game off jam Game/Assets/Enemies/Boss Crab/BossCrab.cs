@@ -143,6 +143,6 @@ public class BossCrab : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Player"))
-            collision.collider.GetComponent<PlayerHealth>()?.TakeDamage();
+            collision.collider.GetComponent<PlayerHealth>()?.TakeDamage(30);
     }
 }
