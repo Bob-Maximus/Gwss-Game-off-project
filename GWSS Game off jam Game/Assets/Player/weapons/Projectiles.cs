@@ -20,4 +20,24 @@ public class Projectiles : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        
+        if (col.collider.CompareTag("Enemy"))
+        {
+            col.collider.GetComponent<LargeCrabReworked>()?.TakeDamage();
+            Debug.Log("Hit enemy");
+        }
+
+        
+        BossCrab boss = col.collider.GetComponent<BossCrab>();
+        if (boss != null)
+        {
+            boss.TakeDamage(10); 
+            Debug.Log("Hit boss");
+        }
+    }
+
+
 }
