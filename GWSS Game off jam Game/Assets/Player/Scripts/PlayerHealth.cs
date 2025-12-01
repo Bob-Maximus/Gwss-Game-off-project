@@ -6,7 +6,7 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 100;         // Max health
     private int currentHealth;          // Current health
 
-    public Image healthBarFill;         // Drag your player's HealthBarFill image here
+    public Image healthBarFill;         
 
     void Start()
     {
@@ -17,7 +17,6 @@ public class PlayerHealth : MonoBehaviour
             healthBarFill.fillAmount = 1f;
     }
 
-    // Call this to damage the player
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
@@ -40,4 +39,13 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("Player died");
         Destroy(gameObject);  
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Floor"))
+        {
+            TakeDamage(maxHealth);  // instantly kill player
+        }
+    }
+
 }
